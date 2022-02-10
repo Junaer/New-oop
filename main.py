@@ -6,7 +6,11 @@ class Student:
         self.finished_courses = []
         self.courses_in_progress = []
         self.grades = {}
-        # self.stud_l = []
+        self.stud_l = []
+        self.averege_grade = 0
+
+    def __lt__(self, other):
+        return self.averege_grade < other.averege_grade
 
 
     def add_courses(self, course_name):
@@ -73,6 +77,7 @@ class Lecturer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
         self.grades = {}
+        self.averege_grade = 0
 
     def get_comparison(self, lektor):
         if get_average(self.grades) == get_average(lektor.grades):
@@ -82,6 +87,9 @@ class Lecturer(Mentor):
         else:
             print(f'Средние оценки {lektor.surname} {lektor.name} {get_average(lektor.grades)}  лучше чем {get_average(self.grades)} у {self.surname} {self.name}')
         return
+
+    def __lt__(self, other):
+        return self.averege_grade < other.averege_grade
 
     def __str__(self):
         lec = f"""Имя: {self.name} 
@@ -107,17 +115,6 @@ def get_average(grade_l):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 klubnickin = Lecturer('Grishka', 'Klubnickin')
 klubnickin.courses_attached += ['Python']
 
@@ -133,10 +130,12 @@ tomatov.rate_lekt(klubnickin, 'Python', 8)
 tomatov.rate_lekt(arbuzov, 'JS', 7)
 
 
+
 ogurcova = Student('Natalia', 'Ogurcova', 'w')
 ogurcova.finished_courses += ['JS']
 ogurcova.courses_in_progress += ['Python', 'OOP']
 ogurcova.rate_lekt(klubnickin, 'Python', 3)
+ogurcova.averege_grade = 3
 
 
 persikov = Reviewer('Valera', 'Persikov')
@@ -211,6 +210,15 @@ def get_averange_course_lect(lect_l, course):
 
 print(get_averange_course_lect(lect_l, 'JS'))
 print(get_averange_course_lect(lect_l, 'Python'))
+
+tomatov.averege_grade = get_average(tomatov.grades)
+ogurcova.averege_grade = get_average(ogurcova.grades)
+klubnickin.averege_grade = get_average(klubnickin.grades)
+arbuzov.averege_grade = get_average(arbuzov.grades)
+is_lt_stud = (ogurcova < tomatov)
+print(is_lt_stud)
+is_lt_lect = (klubnickin > arbuzov)
+print(is_lt_lect)
 
 
 
